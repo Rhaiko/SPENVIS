@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}		% Graphics.
+\usepackage{color}
+\usepackage[english]{babel}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{xfrac}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{siunitx}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{longtable}
+\usepackage[justification=centering]{caption}
+\usepackage{adjustbox}
+\usepackage[version=4]{mhchem}
+\usepackage{expl3}
+
+% Create a separate table for the appendix.
+\usepackage[toc,page]{appendix}
+
+% Table of Content has fast links to sections.
+\usepackage{hyperref}
+
+% Remove dots in table of contents.
+\usepackage[titles]{tocloft}
+\renewcommand{\cftdot}{}
+
+% Page style.
+\usepackage[top=2cm, bottom=2cm, left = 2cm, right = 2cm]{geometry}
+\setlength{\parindent}{0pt}	% Disable indents.
+
+% BIBTEX.
+\usepackage[style=ieee]{biblatex}
+\usepackage{csquotes}
+\addbibresource{references.bib}
+
+% Get more layers for the sections.
+\setcounter{secnumdepth}{4}
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE.
+%----------------------------------------------------------------------------------------
+\input{chapters/titlepage.tex}
+
+
+%----------------------------------------------------------------------------------------
+%	SUMMARY (-).
+%----------------------------------------------------------------------------------------
+\newpage				% Start at new page.
+\thispagestyle{empty}	% Remove page numbering.
+\input{chapters/summary.tex}
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENT.
+%----------------------------------------------------------------------------------------
+\newpage				% Start at new page.
+%\pagenumbering{arabic}	% Page numbering reset & style.
+\renewcommand{\contentsname}{Table of Contents}
+\tableofcontents		% Add table of content.
+
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION (DIEGO).
+%----------------------------------------------------------------------------------------
+\newpage
+\input{chapters/introduction.tex}
+
+
+%----------------------------------------------------------------------------------------
+%	GENERAL DESCRIPTION OF SPACECRAFT ENVIRONMENT (DIEGO).
+%----------------------------------------------------------------------------------------
+\newpage
+\input{chapters/general.tex}
+
+
+%----------------------------------------------------------------------------------------
+%	NUMERICAL SIMULATIONS (DIEGO & ELRICK).
+%----------------------------------------------------------------------------------------
+\newpage
+\input{chapters/simulations.tex}
+
+
+%----------------------------------------------------------------------------------------
+%	CONCLUSION (-).
+%----------------------------------------------------------------------------------------
+\newpage
+\input{chapters/conclusion.tex}
+
+
+%----------------------------------------------------------------------------------------
+%	REFERENCES.
+%----------------------------------------------------------------------------------------
+\newpage				% Start at new page.
+\addcontentsline{toc}{section}{References}
+\printbibliography
+
+
+%----------------------------------------------------------------------------------------
+%	APPENDICES.
+%----------------------------------------------------------------------------------------
+\newpage				% Start at new page.
+\begin{appendices}
+    %------------------------------------------------------------------------------------
+    %	APPENDIX: EXAMPLE.
+    %------------------------------------------------------------------------------------
+    \section{\label{app:example}Example}
+
+\end{appendices}
+
+
+\end{document}
