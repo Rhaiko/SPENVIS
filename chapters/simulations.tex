@@ -20,20 +20,188 @@
 %	SINGLE EVENT UPSETS (Elrick).
 %----------------------------------------------------------------------------------------
 \subsection{\label{subsec:SEU}Single Event Upsets}
+A single event upset (or bit flip) happens when radiations strikes the electronics on the PCB of the spacecraft. It can then ionize a couple of atoms in a (field effective) transistor which can cause a current to flow. This current causes the so called single event effects, of which the most common one is called a single event upset (SEU). This happens when the current is low enough to not burn the components (then it would be a single event burnout) but high enough to flip a bit in a memory device and thus corrupt the data stored. In order to have less SEU the memory should be shielded and/ or a redundancy computer can be implemented that compares memory. In the latter case the data should be stored on different memory devices using a RAID (Redundant Array of Independent Disks) protocol.\\
+
+In table \ref{tab:SEU} the most important parameters for the TTL and CMOS chips are shown. It can be seen that the CMOS chip is larger, uses less energy but has a longer delay. The most important parameter for the SEU is the noise margin. This is for the CMOS chip higher than for the TTL chip. This means that a larger offset for a single bit must be given before the data is corrupted. In applications where power and data protection is key, the CMOS chip is a better solution. This is for instance the case in spacecrafts.
+
+\begin{center}
+\begin{longtable}{|p{4cm}|p{6.1cm}|p{6.1cm}|}
+
+\hline \multicolumn{1}{|c|}{\textbf{}} & \multicolumn{1}{c|}{\textbf{TTL}} & \multicolumn{1}{c|}{\textbf{CMOS}} \\ \hline 
+\endfirsthead
+
+\multicolumn{3}{c}%
+{{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+\hline \multicolumn{1}{|c|}{\textbf{}} & \multicolumn{1}{c|}{\textbf{TTL}} & \multicolumn{1}{c|}{\textbf{CMOS}} \\ \hline 
+\endhead
+
+\hline \multicolumn{3}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+
+Method: & bipolar junction transistors (BJTs) & field effect transistors (FETs) ie.,by connecting NMOS and PMOS (MOSFETs) \\\hline
+
+Gates used: & NAND & NAND-NOR \\\hline
+
+Power consumption: & $\approx$10\,mW & $\approx$10\,nW \\\hline
+
+Delay: & $\approx$10\,ns & $\approx$70\,ns \\\hline
+
+Noise Margin: & $\approx$0.5\,V & $\approx$1.5\,V \\\hline
+
+Data density: & higher & lower \\\hline
+
+\caption{Comperisment TTL and CMOS chips \cite{TTL-CMOS}.}
+ \label{tab:SEU}
+\end{longtable}
+\end{center}
 
 
 %----------------------------------------------------------------------------------------
 %	LET-SPECTRUM (Elrick).
 %----------------------------------------------------------------------------------------
 \subsection{\label{subsec:let}Linear Energy Transfer (LET) Spectrum}
+To estimate the SEU rate, firstly the LET spectrum has to be estimated. Using SPENVIS the plot in figure \ref{fig:LET-shielding} has been made. Here it has been taken into account that there is an effective shielding of 1\,g/cm$^2$. If aluminum is used with a density of 2.7\,g/cm$^3$, then the shielding thickness is 0.37\,cm. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.9\textwidth]{figures/LET-shielding.png}
+\caption{Differential and Integrated flux of ions from hydrogen to uranium, as a function of the linear energy transfer (LET), with an effective shielding of 1\,g/cm$^2$, shielding tickness of 0.37\,cm with aluminium. The volume is 38.7\,x\,38.7\,x\,2\,$\mu$m \cite{SPENVIS}.}
+\label{fig:LET-shielding}
+\end{figure}
+
+The integral representation of the SEU rate $\dv{U}{t}$ is given by equation \ref{eq:LET}. Here $\sigma$ is the experimentally determined cross section of a device as a function of LET and angles $(\theta,\phi)$. $h$(LET) is the differential fluxes of ions as functions of LET, summed over all relevant ion species (also called the LET spectrum).
+
+\begin{equation}
+\dv{U}{t} = \int^{2 \pi}_0 \int^\pi_0 \sin{\theta} \int^{\infty}_0 \sigma(\text{LET}, \theta, \phi) \cdot \sum^{92}_{Z=1} h(\text{LET}) d(\text{LET}) \,d\theta\,d\phi \label{eq:LET}
+\end{equation}
+
+The first two integrals in equation \ref{eq:LET} can be simplified to $4 \pi$. Thus the equation can be simplified to equation \ref{eq:LET2}.
+\begin{equation}
+\dv{U}{t} = 4 \pi \int^{\infty}_0 \sigma(\text{LET}, \theta, \phi) \cdot \sum^{92}_{Z=1} h(\text{LET}) d(\text{LET})\label{eq:LET2}
+\end{equation}
+
+The size chosen is 38.7\,x\,38.7\,x\,2\,$\mu$m. This means that, in the worst case scenario without taking into account the spacecraft charging ($\phi$), the cross section $\sigma$ is 1.5\,nm$^2$. However, for this example the cross section is ignored $\sigma = 1$. The differential flux summed over the elements H (hydrogen) to U (uranium) $\sum^{92}_{Z=1} h(\text{LET})$ is given as the straight line in figure \ref{fig:LET-shielding}.\\
+
+When integrating over the differential flux and multiplying this result by 4$\pi$, as done in the MATLAB program in appendix \ref{app:matlab:LET}, the figure \ref{fig:matlab:LET-shielding} is obtained. Here the blue and red line are the original data, obtained from SPENVIS. The yellow line is the integrated flux by hand over the differential flux from SPENVIS. It can be seen that it doesn't quite match the integral flux from SPENVIS. This can be explained that SPENVIS re-calculates it's integral data to get a better precision. This means that it takes more data into account for bigger values of LET, which it does not provide to the user. This explains the difference on the right hand side. The difference on the left hand side can be explained by a difference method to determine the effectiveness of the shielding. Shielding mostly blocks the particles with a lower amount of energy.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.7\textwidth]{data/LET/LET.eps}
+\caption{The differential flux (blue) and integral flux (red) obtained from SPENVIS and the integral flux (yellow) calculated with the MATLAB program in appendix \ref{app:matlab:LET}.}
+\label{fig:matlab:LET-shielding}
+\end{figure}
 
 
 %----------------------------------------------------------------------------------------
 %	CROSS SECTION \& COMPONENTS CHARACTERISTICS (Elrick).
 %----------------------------------------------------------------------------------------
 \subsection{\label{subsec:CSCC}Cross Section and Components Characteristics}
+For some components the  characteristics are known are given. For this mission the SMJ329C50GFAM66 chip is used, this chip only has direct measurements available, as shown in table \ref{tab:SMJ-LET}. To find the cross section and the sensitivity of this chip, a Weibull function has to be fitted to the this data.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+Ion & Energy Beam & Flux particles & Exposure time & Flips \\
+& [MeV] & [cm$^{-2}$s$^{-1}$] & [minutes] & \\\hline
+
+$^{12}$C & 0.60 & $25 \cdot 10^6$ & 5 & 8\\\hline
+$^{12}$C & 0.72 & $25 \cdot 10^6$ & 5 & 7497\\\hline
+$^{12}$C & 9.6 & $25 \cdot 10^6$ & 5 & 22514\\\hline
+$^{16}$O & 4.8 & $17 \cdot 10^6$ & 5 & 23986\\\hline
+$^{40}$Ar & 20 & $23 \cdot 10^6$ & 5 & 33810\\\hline
+$^{56}$Fe & 56 & $10 \cdot 10^6$ & 10 & 29991\\\hline
+$^{84}$Kr & 84 & $7 \cdot 10^6$ & 10 & 21022\\\hline
+$^{131}$Xe & 786 & $4 \cdot 10^6$ & 15 & 18043\\\hline
+
+\end{tabular}
+\caption{SMJ329C50GFAM66 chip measurements}
+\label{tab:SMJ-LET}
+\end{table}
+
+Dividing the energy of the beam in table \ref{tab:SMJ-LET} with the ion number the LET stopping power can be read from figure \ref{fig:LET-stoppingpower}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{figures/stoppingPower.png}
+\caption{CREME Stopping Powers in Silicon.}
+\label{fig:LET-stoppingpower}
+\end{figure}
+
+The cross section ($\sigma$) in cm$^2$ can be calculated from equation \ref{eq:sigma}. Here the N is the number of flips, F the flux of the particles in cm$^{-2}$s$^{-1}$ and t the exposure time in seconds.
+\begin{equation}
+\sigma = \frac{N}{F \cdot t} \label{eq:sigma}
+\end{equation}
+
+When plotting the cross section to the LET stopping power, it can be seen that there is a LET threshold ($L_0$) around 4.5\,MeV\,cm$^2$\,mg$^{-1}$, in figure \ref{fig:matlab:LET-sigma}. It can also be seen that the saturated cross section ($C_s$) is approximately $5 \cdot 10^{-6}$\,m$^2$.
+\begin{figure}[H]
+\centering
+\includegraphics[width=.7\textwidth]{data/sigma/L0.eps}
+\caption{LET Threshold ($L_0$) is around 4.5\,MeV\,cm$^2$\,mg$^{-1}$ and saturated cross section ($C_s$) of $5 \cdot 10^{-6}$\,m$^2$, calculated using appendix \ref{app:matlab:sigma} for the SMJ chip.}
+\label{fig:matlab:LET-sigma}
+\end{figure}
+
+With the same range of fluxes from figure \ref{fig:LET-shielding} and the known threshold LET and saturated cross section, the curve can now be fitted using the Weibull function. The equation that is used for the fitting is shown in equation \ref{eq:weibull}. Here $L$ is the LET, $L_0$ is the LET threshold, $C_s$ is the saturated cross section, $W$ the distribution weight [MeV\,cm$^2$\,mg$^{-1}$] and s an experimentally determined shape parameter. This is done in figure \ref{fig:matlab:LET-sigma-all}. In this figure also the chips NMOS2164, CMOS-R160-25 and Bipolar 93L422 are shown. The parameters for these chips are shown in table \ref{tab:all-LET}.
+\begin{equation}
+\sigma(\text{LET}) = \begin{cases}0 & , L < L_0 \\ C_s \left( 1- e^{-\left( \frac{L - L_)}{W}\right)} \right)^s & L \geq L_0 \end{cases} \label{eq:weibull}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.7\textwidth]{data/sigma/sensitivity.eps}
+\caption{LET to sigma for multiple chips \ref{app:matlab:sigma}.}
+\label{fig:matlab:LET-sigma-all}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Parameter} & \textbf{NMOS} & \textbf{CMOS} & \textbf{Bipolar} \\\hline
+
+$L_0$ [MeV cm$^2$ mg$^{-1}$] & 0.487 & 136.8 & 0.6 \\\hline
+$C_s$ [cm$^2$] & $1.71 \cdot 10^{-5}$ & $1.2 \cdot 10^{-5}$ & $2.6 \cdot 10^{-5}$ \\\hline
+$W$   [MeV cm$^2$ mg$^{-1}$] & 4.95 & 350 & 4.4 \\\hline
+$s$  ~ [arbitrary] & 1.422 & 3.0 & 0.7 \\\hline
+
+\end{tabular}
+\caption{NMOS2164, CMOS-R160-25 \& Bipolar 93L422 chip parameters.}
+\label{tab:all-LET}
+\end{table}
+
+
 
 %----------------------------------------------------------------------------------------
 %	SINGLE EVENT UPSETS ESTIMATION (Elrick).
 %----------------------------------------------------------------------------------------
 \subsection{\label{subsec:SEU-esti}Single Event Upsets Estimation}
+The Single Event Upsets can be estimated using equation \ref{eq:LET2}, which is again shown below in equation \ref{eq:LET2-2}. The differential flux summed over the elements H (hydrogen) to U (uranium) $\sum^{92}_{Z=1} h(\text{LET})$ can be obtained from SPENVIS and can be seen in figure \ref{fig:LET-shielding}. The cross section based on the LET value is calculated in appendix \ref{app:matlab:sigma}. Calculating the total bit flips on average per day are shown in table \ref{tab:SEU-estimation}, together with the values that can be obtained from SPENVIS. It can be seen that the CMOS has the lowest amount of single event upsets and is thus the best choice.
+\begin{equation}
+\dv{U}{t} = 4 \pi \int^{\infty}_0 \sigma(\text{LET}, \theta, \phi) \cdot \sum^{92}_{Z=1} h(\text{LET}) d(\text{LET})\label{eq:LET2-2}
+\end{equation}
+
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+Chip & SEU MATLAB & SEU SPENVIS \\
+	 & [bits day$^{-1}$] & [bits$^{-1}$ day$^{-1}$] \\\hline
+NMOS 2164		& 7.3806 & $2.9373 \cdot 10^{-2}$ \\\hline
+CMOS R160-25	& $1.51 \cdot 10^{-2}$ & - \\\hline
+Bipolar 93L422	& 10.988 & $1.9085$ \\\hline
+SMJ329C50G		& 1.6646 & - \\\hline
+\end{tabular}
+\caption{Single event upsets per chip from MATLAB and SPENVIS.}
+\label{tab:SEU-estimation}
+\end{table}
+
+
+
+
+
+

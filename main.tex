@@ -16,6 +16,9 @@
 \usepackage{adjustbox}
 \usepackage[version=4]{mhchem}
 \usepackage{expl3}
+\usepackage{longtable}
+\usepackage{physics}
+\usepackage{matlab-prettifier}
 
 % Create a separate table for the appendix.
 \usepackage[toc,page]{appendix}
@@ -31,18 +34,10 @@
 \usepackage[top=2cm, bottom=2cm, left = 2cm, right = 2cm]{geometry}
 \setlength{\parindent}{0pt}	% Disable indents.
 
-% BIBTEX.
+% BIBLATEX.% BIBER as bibtex
 \usepackage[style=ieee]{biblatex}
 \usepackage{csquotes}
 \addbibresource{references.bib}
-
-% Get more layers for the sections.
-\setcounter{secnumdepth}{4}
-\titleformat{\paragraph}
-{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
-\titlespacing*{\paragraph}
-{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-
 
 \begin{document}
 
@@ -110,9 +105,17 @@
 \newpage				% Start at new page.
 \begin{appendices}
     %------------------------------------------------------------------------------------
-    %	APPENDIX: EXAMPLE.
+    %	APPENDIX: MATLAB LET.
     %------------------------------------------------------------------------------------
-    \section{\label{app:example}Example}
+    \section{\label{app:matlab:LET}MATLAB: LET integral calculation}
+    \lstinputlisting[style=Matlab-editor]{data/LET/LET.m}
+    
+    %------------------------------------------------------------------------------------
+    %	APPENDIX: MATLAB Cross Section.
+    %------------------------------------------------------------------------------------
+	\newpage    
+    \section{\label{app:matlab:sigma}MATLAB: Components characteristics \& SEU estimation}
+    \lstinputlisting[style=Matlab-editor]{data/sigma/crossSection.m}
 
 \end{appendices}
 
