@@ -20,23 +20,23 @@ Since the spacecraft will go through different regions of space, we need to ensu
 
 Using SPENVIS, we simulated the mission with the spacecraft with the Azur 3G28 as the solar panels used by Willzyx I. The shielding of the solar panels is made of a lager of glass ($SiO_2$). The design requirement is that the output power ($P_{max}$) of the solar panels stay above 95\% after the duration of the mission. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{figures/fluxElectrons.png}
 \caption{Differential and Integral Flux of trapped protons over energy}
 \label{FluxE}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{figures/fluxProtons.png}
+\includegraphics[width=0.68\textwidth]{figures/fluxProtons.png}
 \caption{Differential and Integral Flux of trapped electrons over energy}
 \label{FluxP}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{figures/eqfluxsp.png}
+\includegraphics[width=0.68\textwidth]{figures/eqfluxsp.png}
 \caption{Electron equivalent flux spectra for varying depths of Silicon}
 \label{eqflux}
 \end{figure}
@@ -45,13 +45,14 @@ Using SPENVIS, we simulated the mission with the spacecraft with the Azur 3G28 a
 
 After a few iterations we conclude that the layer of glass over the solar arrays must be about 65\,$\mu m$ thick in order to have a degradation just 3.75\% from their initial value, This complies with the design requirement. The reason for the very small thickness of the shielding is because of the time of the mission, we simulated the trajectory over 1 day, and this was enough to see the spacecraft even the outermost radiation belts. This means that the time spent in the harsh radiation and plasma environments surrounding Earth will not induce major damage to the solar arrays with the proposed shielding thickness. In addition, this thickness of shielding would only increase the mass of the solar panels by $0.172 kg\,m^{-2} $ which is acceptable for a space mission.
 
+\newpage
 \subsubsection{Memory shielding}
 
-In order to run the necessary software for controlling the systems of the spacecraft, a memory device is needed. This is assumed to be made of Silicon (Si) and have a protective shielding made of aluminium at 1mm thick. It is also stated that the memory device can recieve 100\, krad of radiation before it stops working. 
+In order to run the necessary software for controlling the systems of the spacecraft, a memory device is needed. This is assumed to be made of Silicon (Si) and have a protective shielding made of aluminium at 1mm thick. It is also stated that the memory device can receive 100\, krad of radiation before it stops working. 
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.7\textwidth]{figures/SiShielding.png}
+\includegraphics[width=1\textwidth]{figures/SiShielding.png}
 \caption{Total received radiation dose at different aluminium thickness}
 \label{SiShielding}
 \end{figure}
@@ -105,6 +106,7 @@ Data density: & higher & lower \\\hline
 %----------------------------------------------------------------------------------------
 %	LET-SPECTRUM (Elrick).
 %----------------------------------------------------------------------------------------
+\newpage
 \subsection{\label{subsec:let}Linear Energy Transfer (LET) Spectrum}
 To estimate the SEU rate, firstly the LET spectrum has to be estimated. Using SPENVIS the plot in figure \ref{fig:LET-shielding} has been made. Here it has been taken into account that there is an effective shielding of 1\,g/cm$^2$. If aluminum is used with a density of 2.7\,g/cm$^3$, then the shielding thickness is 0.37\,cm. 
 
