@@ -17,6 +17,8 @@
 \usepackage[version=4]{mhchem}
 \usepackage{expl3}
 \usepackage{physics}
+\usepackage{longtable}
+\usepackage{matlab-prettifier}
 
 % Create a separate table for the appendix.
 \usepackage[toc,page]{appendix}
@@ -32,7 +34,7 @@
 \usepackage[top=2cm, bottom=2cm, left = 2cm, right = 2cm]{geometry}
 \setlength{\parindent}{0pt}	% Disable indents.
 
-% BIBTEX.
+% BIBLATEX, BIBER as bibtex
 \usepackage[style=ieee]{biblatex}
 \usepackage{csquotes}
 \addbibresource{references.bib}
@@ -111,9 +113,17 @@
 \newpage				% Start at new page.
 \begin{appendices}
     %------------------------------------------------------------------------------------
-    %	APPENDIX: EXAMPLE.
+    %	APPENDIX: MATLAB LET.
     %------------------------------------------------------------------------------------
-    \section{\label{app:example}Example}
+     \section{\label{app:matlab:LET}MATLAB: LET integral calculation}
+    \lstinputlisting[style=Matlab-editor]{data/LET/LET.m}
+    
+    %------------------------------------------------------------------------------------
+    %	APPENDIX: MATLAB Cross Section.
+    %------------------------------------------------------------------------------------
+	\newpage    
+    \section{\label{app:matlab:sigma}MATLAB: Components characteristics \& SEU estimation}
+    \lstinputlisting[style=Matlab-editor]{data/sigma/crossSection.m}
 
 \end{appendices}
 
